@@ -10,7 +10,6 @@
 
 #define FREQ 0.1
 
-new Fps[33];
 new Keys[33];
 
 new bool:g_bShowSpeed[33];
@@ -118,8 +117,6 @@ public client_putinserver(id)
 	g_bShowFps[id] = true;
 
 	g_iPlayerColors[id] = g_iColors;
-
-	set_task(0.5, "get_fps", id, "", 0, "b");
 }
 
 public client_disconnected(id) remove_task(id);
@@ -183,7 +180,7 @@ SpeedTask()
 		if(g_bShowSpeed[i])
 			format(message, charsmax(message), "%s%3.2f ups^n", message, speed);
 		if(g_bShowFps[i])
-			format(message, charsmax(message), "%s%d fps", message, Fps[target]);
+			format(message, charsmax(message), "%s%d fps", message, get_user_fps(i));
 
 		ShowSyncHudMsg(i, SyncHud, message);
 
@@ -208,10 +205,5 @@ public get_buttons(id)
 		Keys[id] |= IN_JUMP;
 
 	return PLUGIN_CONTINUE
-}
-
-public get_fps(id)
-{
-	Fps[id] = get_user_fps(id);
 }
 
